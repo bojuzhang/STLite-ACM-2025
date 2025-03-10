@@ -12,6 +12,7 @@ void TestConstructorAndPush()
 	for (int i = 100; i > 0; --i) {
 		pq.push(i);
 	}
+	// std::cerr << "test\n";
 	while (!pq.empty()) {
 		std::cout << pq.top() << " ";
 		pq.pop();
@@ -20,6 +21,7 @@ void TestConstructorAndPush()
 	for (int i = 1000; i > 100; --i) {
 		pq.push(i);
 	}
+	// std::cerr << "testn\n";
 	sjtu::priority_queue<int> pqBack(pq);
 	std::cout << pqBack.size() << std::endl;
 	sjtu::priority_queue<int> pqBB;
@@ -29,6 +31,7 @@ void TestConstructorAndPush()
 	std::cout << pqBB.size() << std::endl;
 	pqBB = pq;
 	std::cout << pqBB.size() << std::endl;
+	// std::cerr << "end1\n";
 }
 
 void TestSize()
