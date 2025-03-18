@@ -18,7 +18,6 @@ private:
         T val;
         struct heapnode *ls;
         struct heapnode *rs;
-        // heapnode() : ls(nullptr), rs(nullptr) {};
         heapnode(const T &v) : val(v), ls(nullptr), rs(nullptr) {};
     };
     heapnode *root_;
@@ -26,15 +25,19 @@ private:
     heapnode *merge(heapnode *x, heapnode *y) {
         if (!x) return y;
         if (!y) return x;
-        if (Compare()(x->val, y->val)) {
-            auto tmp = x;
-            x = y;
-            y = tmp;
+        try {
+            if (Compare()(x->val, y->val)) {
+                auto tmp = x;
+                x = y;
+                y = tmp;
+            }
+            auto tmp = x->rs;
+            x->rs = x->ls;
+            x->ls = merge(tmp, y);
+            return x;
+        } catch(...) {
+            throw runtime_error();
         }
-        auto tmp = x->rs;
-        x->rs = x->ls;
-        x->ls = merge(tmp, y);
-        return x;
     }
     void clear(heapnode *x) {
         if (!x) return;
@@ -155,10 +158,7 @@ public:
         if (this == &other) {
             return ;
         }
-        // Thanks for sword_k_w for discussion about the case that comparision error emerges.
         try {
-            Compare()(root_->val, other.root_->val);
-
             root_ = merge(root_, other.root_);
             size_ += other.size_;
             other.root_ = nullptr;
